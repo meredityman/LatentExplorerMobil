@@ -55,7 +55,7 @@ public class LatentSliders : MonoBehaviour {
             RectTransform newSliderTransfrom = newSliderGo.GetComponent<RectTransform>();
 
             newSliderTransfrom.anchoredPosition = position;
-            newSliderTransfrom.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rectTransform.rect.height);
+            newSliderTransfrom.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectTransform.rect.height);
 
             Slider newSlider = newSliderGo.GetComponent<Slider>();
 

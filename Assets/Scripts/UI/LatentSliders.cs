@@ -10,19 +10,46 @@ using UnityEngine.Events;
 
 public class LatentSliders : MonoBehaviour {
 
+    public static LatentSliders instance;
 
-    public int numSliders = 20;
+    public static int numSliders = 20;
     public GameObject sliderPrefab;
     public GanRunner ganRunner;
 
     private List<Slider> sliders;
     RectTransform rectTransform;
     // Use this for initialization
+
+    private void OnEnable()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        } else
+        {
+            Debug.LogError("Something is wrong");
+        }
+
+    }
+
     void Start () {
-        
+
         rectTransform = GetComponent<RectTransform>();
 
         SetupSliders();
+    }
+
+    public static float GetSliderValue(int i)
+    {
+        if(instance == null)
+        {
+            Debug.LogWarning("Something is wrong");
+            return 0.0f;
+        } else
+        {
+            return instance.sliders[i].value;
+        }
+               
     }
 
     public void SetupSliders()

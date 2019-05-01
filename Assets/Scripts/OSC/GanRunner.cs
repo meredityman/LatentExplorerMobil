@@ -79,14 +79,13 @@ public class GanRunner : MonoBehaviour {
         {
             if (bSendBlind)
             {
+                yield return new WaitForSeconds(1.0f / sendRate);
                 Send(true);
-                yield return new WaitForSeconds( 1.0f / sendRate );
             } else
             {
+                yield return new WaitForEndOfFrame();
                 if (ganData.hasChanged && _processed)
                     Send();
-
-                yield return new WaitForEndOfFrame();
             }
         }
     }
@@ -122,8 +121,16 @@ public class GanRunner : MonoBehaviour {
     void Send(bool tagExtern = false)
     {
         OscMessage message = new OscMessage();
-        message.address = tagExtern ? "/externLatents/" : "/latents/";
-        for (int i = 0; i < GANData.numLatents; i++) { message.values.Add(ganData.getLatent(i)); }
+
+        if (tagExtern)
+        {
+            message.address = "/externLatents/" ;
+            for (int i = 0; i < LatentSliders.numSliders; i++) { message.values.Add(LatentSliders.GetSliderValue(i)); }
+        } else
+        {
+            message.address = "/latents/";
+            for (int i = 0; i < GANData.numLatents; i++) { message.values.Add(ganData.getLatent(i)); }
+        }
 
         osc.Send(message);
         ganData.markSent();

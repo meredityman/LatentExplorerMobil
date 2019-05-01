@@ -86,6 +86,8 @@ public class OSCSettings : MonoBehaviour {
     public void OnToggleActivated()
     {
         bActivated = !bActivated;
+        Debug.Log("Here");
+        activeMenuButton.GetComponent<ButtonTransformSwitch>().SwitchTransform(bActivated);
 
         latentSliders.SetActive(!bActivated);
 
